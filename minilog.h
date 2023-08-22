@@ -24,6 +24,22 @@ enum class log_level : std::uint8_t {
 
 namespace details {
 
+#if defined(__linux__) || defined(__APPLE__)
+inline char level_ansi_colors[(std::uint8_t)log_level::fatal + 1][6] = {
+    "37m",
+    "35m",
+    "32m",
+    "34m",
+    "33m",
+    "31m",
+    "31;1m",
+};
+
+#define MINILOG_IF_HAS_ANSI_COLORS(x) x
+#else
+#define MINILOG_IF_HAS_ANSI_COLORS(x)
+#endif
+
 inline std::string log_level_name(log_level lev) {
     switch (lev) {
 #define _FUNCTION(name) case log_level::name: return #name;
@@ -71,7 +87,10 @@ template <typename... Args>
 void generic_log(log_level lev, details::with_source_location<std::format_string<Args...>> fmt, Args &&...args) {
     if (lev >= details::g_max_level) {
         auto const &loc = fmt.location();
-        std::cout << loc.file_name() << ":" << loc.line() << " [" << details::log_level_name(lev) << "] " << std::vformat(fmt.format().get(), std::make_format_args(args...)) << '\n';
+        std::cout MINILOG_IF_HAS_ANSI_COLORS(<< "\E[" << details::level_ansi_colors[(std::uint8_t)lev])
+            << loc.file_name() << ":" << loc.line() << " [" << details::log_level_name(lev) << "] "
+            << std::vformat(fmt.format().get(), std::make_format_args(args...))
+            MINILOG_IF_HAS_ANSI_COLORS(<< "\E[m") << '\n';
     }
 }
 
