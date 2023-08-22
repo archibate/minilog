@@ -29,3 +29,13 @@ cmake --build build
 export MINILOG_LEVEL=trace  # set default log level from environment variable
 build/main
 ```
+
+Available log levels are:
+
+- trace
+- debug
+- info
+- critical
+- warn
+- error
+- fatal
