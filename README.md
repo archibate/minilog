@@ -30,6 +30,8 @@ export MINILOG_LEVEL=trace  # set default log level from environment variable
 build/main
 ```
 
+Demostration video: https://www.bilibili.com/video/BV1t94y1r72E
+
 Available log levels are:
 
 - trace
