@@ -6,6 +6,7 @@ int main() {
 
     minilog::log_warn("good job, {1:.5s} for making {0}", "minilog", "archibate");
     minilog::set_log_level(minilog::log_level::trace); // default log level is info
+    // minilog::set_log_file("mini.log"); // uncomment to dump log to a specific file
 
     int my_variable = 42;
     MINILOG_P(my_variable); // shown when log level lower than debug
