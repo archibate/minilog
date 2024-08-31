@@ -97,7 +97,7 @@ inline std::ofstream g_log_file = [] () -> std::ofstream {
 } ();
 
 inline void output_log(log_level lev, std::string msg, std::source_location const &loc) {
-    std::chrono::zoned_time now{std::chrono::current_zone(), std::chrono::high_resolution_clock::now()};
+    std::chrono::zoned_time now{std::chrono::current_zone(), std::chrono::system_clock::now()};
     msg = std::format("{} {}:{} [{}] {}", now, loc.file_name(), loc.line(), details::log_level_name(lev), msg);
     if (g_log_file) {
         g_log_file << msg + '\n';
